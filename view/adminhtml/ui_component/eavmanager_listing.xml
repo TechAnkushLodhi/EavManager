@@ -1,0 +1,207 @@
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+                <item name="provider" xsi:type="string">eavmanager_listing.eavmanager_listing_data_source</item>
+                <item name="deps" xsi:type="string">eavmanager_listing.eavmanager_listing_data_source</item>
+            </item>
+            <!-- <item name="deps" xsi:type="array">
+                <item name="dep" xsi:type="string">icecube_EavManager/js/form/eavmanager-validation</item>
+            </item> -->
+            <item name="spinner" xsi:type="string">eavmanager_columns</item>
+        
+            <item name="buttons" xsi:type="array">
+                <!-- <item name="back" xsi:type="array">
+                    <item name="name" xsi:type="string">back</item>
+                    <item name="label" xsi:type="string" translate="true">Back</item>
+                    <item name="class" xsi:type="string">back</item>
+                    <item name="url" xsi:type="string">*/*/back</item>
+                </item> -->
+                <item name="add" xsi:type="array">
+                    <item name="name" xsi:type="string">add</item>
+                    <item name="label" xsi:type="string" translate="true">Create Attribute</item>
+                    <item name="class" xsi:type="string">primary</item>
+                    <item name="url" xsi:type="string">*/*/new</item>
+                </item>
+            </item>
+    </argument>
+    <!-- ================================  dataSource start here ======================================= -->
+
+    <dataSource name="eavmanager_listing_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">EavDataProvider</argument>
+            <argument name="name" xsi:type="string">eavmanager_listing_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">entity_id</argument>
+			<argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">entity_id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <!-- ================================  listingToolbar start here ======================================= -->
+
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="observers" xsi:type="array">
+                    <item name="column" xsi:type="string">column</item>
+                </item>
+            </argument>
+            <settings>
+                <templates>
+                    <filters>
+                        <select>
+                            <param name="template" xsi:type="string">ui/grid/filters/elements/ui-select</param>
+                            <param name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</param>
+                        </select>
+                    </filters>
+                </templates>
+            </settings>
+         </filters>
+        <exportButton class="Magento\Ui\Component\ExportButton">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="options" xsi:type="array">
+                        <item name="csv" xsi:type="array"> <!-- Fix: Change 'cvs' to 'csv' -->
+                            <item name="value" xsi:type="string">csv</item>
+                            <item name="label" xsi:type="string" translate="true">CSV</item>
+                            <item name="url" xsi:type="string">mui/export/gridToCsv</item>
+                        </item>
+                        <item name="xml" xsi:type="array">
+                            <item name="value" xsi:type="string">xml</item>
+                            <item name="label" xsi:type="string" translate="true">Excel XML</item>
+                            <item name="url" xsi:type="string">mui/export/gridToXml</item>                          
+                        </item> 
+                    </item>
+                </item>
+            </argument>
+        </exportButton>
+         <massaction name="listing_massaction" component="Magento_Ui/js/grid/tree-massactions">
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to delete selected items?</message>
+                        <title translate="true">Delete items</title>
+                    </confirm>
+                    <url path="env_manager/attribute/massdelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                </settings>
+            </action>
+        </massaction>
+		<paging name="listing_paging"/>
+    </listingToolbar>
+     <columns name="eavmanager_columns">
+
+        <selectionsColumn name="ids" sortOrder="0">
+            <settings>
+                <indexField>entity_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <!-- ======================= Column start =========================== -->
+        <column name="entity_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+         <column name="attribute_id">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label>Attribute ID</label>
+            </settings>
+        </column>
+        <column name="attribute_code">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label>Attribute Code</label>
+            </settings>
+        </column>
+        <column name="frontend_label">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label>Default lable</label>
+            </settings>
+        </column>
+         <column name="frontend_input">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label>Type</label>
+            </settings>
+        </column>
+        <column name="is_required"  class="Icecube\EavManager\Ui\Component\Listing\Column\IsRequired">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label>Requird</label>
+            </settings>
+        </column>
+         <column name="is_visible" class="Icecube\EavManager\Ui\Component\Listing\Column\IsVisible">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label>Visble</label>
+            </settings>
+        </column>
+         <column name="is_system" class="Icecube\EavManager\Ui\Component\Listing\Column\IsSystem">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label>System Attribute</label>
+            </settings>
+        </column>
+        <column name="sort_order">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label>Sort Order</label>
+            </settings>
+        </column> 
+        <column name="default_value">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label>Default Value</label>
+            </settings>
+        </column>
+         <column name="created_at">
+            <settings>
+                <filter>dateRange</filter>
+                <label>Created At</label>
+            </settings>
+        </column>
+
+        <column name="updated_at">
+            <settings>
+                <filter>dateRange</filter>
+                <label>Updated At</label>
+            </settings>
+        </column>
+       
+        <actionsColumn name="actions" class="Icecube\EavManager\Ui\Component\Listing\Column\Action">
+            <settings>
+                <indexField>entity_id</indexField>
+                <resizeEnabled>false</resizeEnabled>
+                <resizeDefaultWidth>107</resizeDefaultWidth>
+            </settings>
+        </actionsColumn>
+        <!-- ======================= Column End =========================== -->
+
+     </columns>
+
+</listing>

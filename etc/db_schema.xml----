@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="icecube_eav_manager" resource="default" engine="innodb" comment="Custom Customer Data">
+        <column name="entity_id" xsi:type="int" unsigned="true" nullable="false" comment="Entity ID"/>
+        <column name="attribute_id" xsi:type="int" unsigned="true" nullable="false" comment="Attribute ID"/>
+         <column name="attribute_id" xsi:type="int" unsigned="true" nullable="false" comment="Attribute ID"/>
+        <column name="eav_entity_type" xsi:type="text" nullable="false" comment="Attribute Type"/>
+        <column name="store_id" xsi:type="int" nullable="false" comment="Stores"/>
+        <column name="value" xsi:type="text" nullable="true" comment="Value"/>
+        <column name="created_at" xsi:type="timestamp" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column name="updated_at" xsi:type="timestamp" nullable="false" default="CURRENT_TIMESTAMP" on_update="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+            <column name="attribute_id"/>
+        </constraint>
+    </table>
+</schema>

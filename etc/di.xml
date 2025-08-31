@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!-- app/code/Icecube/EavManager/etc/adminhtml/di.xml -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+     <preference for="Icecube\EavManager\Api\Data\EavManagerInterface" type="Icecube\EavManager\Model\EavManager" />
+	 <preference for="Icecube\EavManager\Api\EavManagerRepositoryInterface" type="Icecube\EavManager\Model\EavManagerRepository" />
+    
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Icecube\EavManager\Api\Data\EavManagerInterface" xsi:type="string">Icecube\EavManager\Api\EavManagerRepositoryInterface</item>
+            </argument>
+        </arguments>
+   </type>
+
+    <virtualType name="EavDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Icecube\EavManager\Model\ResourceModel\EavManager\Collection</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="eavmanager_listing_data_source" xsi:type="string">Icecube\EavManager\Model\ResourceModel\EavManager\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Icecube\EavManager\Model\ResourceModel\EavManager\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">icecube_eav_manager</argument>
+            <argument name="eventPrefix" xsi:type="string">icecube_eav_manager_collection</argument>
+            <argument name="eventObject" xsi:type="string">eav_manager_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Icecube\EavManager\Model\ResourceModel\EavManager</argument>
+        </arguments>
+    </type>
+
+    <type name="Icecube\EavManager\Model\EavManager\Source\AttributeEntityType">
+        <arguments>
+            <argument name="entityTypeCollectionFactory" xsi:type="object">Magento\Eav\Model\ResourceModel\Entity\Type\CollectionFactory</argument>
+        </arguments>
+   </type>
+  
+
+  <!-- For load data in hi form when we edit -->
+   <type name="Icecube\EavManager\Model\EavManager\DataProvider">
+        <arguments>
+            <argument name="attributeCollectionFactory" xsi:type="object">Magento\Eav\Model\ResourceModel\Entity\Attribute\CollectionFactory</argument>
+        </arguments>
+    </type>
+
+     <!-- <type name="Magento\MediaGalleryUi\Model\Directories\GetDirectoryTree">
+        <plugin name="custom_directory_tree_plugin" type="Icecube\EavManager\Plugin\GetDirectoryTreePlugin" />
+    </type> -->
+
+    <preference for="Magento\MediaGalleryUi\Model\Directories\GetDirectoryTree" 
+            type="Icecube\EavManager\Model\Directories\CustomGetDirectoryTree" />
+
+
+</config>
+

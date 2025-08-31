@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">eavmanager_form.eavmanager_form_data_source</item>
+        </item>
+         <item name="deps" xsi:type="array">
+           <item name="dep" xsi:type="string">Icecube_EavManager/js/form/eavmanager-validation</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Attribute Information</item>
+         <item name="reverseMetadataMerge" xsi:type="boolean">true</item>
+        <!-- <item name="template" xsi:type="string">templates/form/collapsible</item> -->
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save_and_continue" class="Icecube\EavManager\Block\Adminhtml\EavManager\Edit\SaveAndContinueButton"/>
+            <button name="save" class="Icecube\EavManager\Block\Adminhtml\EavManager\Edit\SaveButton"/>
+            <button name="reset" class="Icecube\EavManager\Block\Adminhtml\EavManager\Edit\ResetButton"/>
+            <button name="delete" class="Icecube\EavManager\Block\Adminhtml\EavManager\Edit\DeleteButton"/>
+            <button name="back" class="Icecube\EavManager\Block\Adminhtml\EavManager\Edit\BackButton"/>
+        </buttons>
+        <namespace>eavmanager_form</namespace>
+        <dataScope>data</dataScope>
+         <layout>
+            <navContainerName>left</navContainerName>
+            <type>tabs</type>
+        </layout>
+        <deps>
+            <dep>eavmanager_form.eavmanager_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="eavmanager_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="env_manager/attribute/save"/>
+        </settings>
+        <dataProvider class="Icecube\EavManager\Model\EavManager\DataProvider" name="eavmanager_form_data_source">
+            <settings>
+                <requestFieldName>entity_id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+      <!-- ================= TABS START ===================== -->
+
+    <fieldset name="Properties">
+        <settings> 
+                <label translate="true">Properties</label>
+            </settings>
+          <!-- ======================= Attribute ID ================================= -->
+        <field name="attribute_id" formElement="input">
+            <argument name="data" xsi:type="array">
+            </argument>
+            <settings>
+                 <imports>
+                    <link name="disabled">${ $.provider}:data.is_disabled</link>
+                    <link name="value">${ $.provider }:data.attribute_id</link>
+                </imports>
+                <label translate="true">Attribute Id</label>
+                <dataType>text</dataType>
+                <visible>false</visible>
+                <dataScope>attribute_id</dataScope>
+            </settings>
+        </field>
+
+      <!-- ======================================== DEFAULT FIELDS FOR ALL ATTRIBUTES START  ===================================================== -->
+         
+          <!-- ======================= Select AttributeEntityType entity Type ================ -->
+       
+        <!-- <field name="entity_type_id" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Icecube\EavManager\Model\EavManager\Source\AttributeEntityType</item>
+            </argument>
+            <settings>
+                <imports>
+                    <link name="disabled">${ $.provider}:data.is_disabled</link>
+                    <link name="value">${ $.provider }:data.entity_type_id</link>
+                </imports>
+                <dataType>text</dataType>
+                <label translate="true">Entity Type</label>
+                <dataScope>entity_type_id</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field> -->
+
+        <!-- ======================= Default label =============================== -->
+        <field name="frontend_label" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">attribute</item>
+                </item>
+            </argument>
+            <settings>
+                <imports>
+                    <link name="value">${ $.provider }:data.frontend_label</link>
+                </imports>
+                <dataType>text</dataType>
+                <label translate="true">Default Label</label>
+                <dataScope>frontend_label</dataScope>
+                <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <!-- ======================= Attribute Code =============================== -->
+        <field name="attribute_code" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">attribute</item>
+                   <item name="notice" xsi:type="string" translate="true">Must be unique. Only letters (a-z), numbers (0-9), and underscores (_) are allowed.</item>
+                </item>
+            </argument>
+            <settings>
+                <imports>
+                    <link name="disabled">${ $.provider}:data.is_disabled</link>
+                    <link name="value">${ $.provider }:data.attribute_code</link>
+                </imports>
+                <dataType>text</dataType>
+                <label translate="true">Attribute code</label>
+                <dataScope>attribute_code</dataScope>
+                <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule> 
+                        <rule name="attribute_code" xsi:type="boolean">true</rule> 
+                </validation>
+            </settings>
+        </field>
+        
+       <!-- ======================= Frontend input =============================== -->
+        <field name="frontend_input" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Icecube\EavManager\Model\EavManager\Source\InputType</item>
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">attribute</item>
+                    <item name="component" xsi:type="string">Icecube_EavManager/js/form/slider-type</item>
+                </item>
+            </argument>
+            <settings>
+                <imports>
+                    <link name="disabled">${ $.provider}:data.is_disabled</link>
+                    <link name="value">${ $.provider}:data.frontend_input</link>
+                </imports>
+                <dataType>text</dataType>
+                <label translate="true">Frontend input</label>
+                <dataScope>frontend_input</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+
+         <!-- ======================= default_value =============================== -->
+         <!-- ========================= For Text Field =================================== -->
+            <field name="default_value" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider}:data.default_value</link>
+                    </imports>
+                    <dataType>text</dataType>
+                    <label translate="true">Default Value</label>
+                    <dataScope>default_value</dataScope>
+                </settings>
+            </field>
+         <!-- ========================= For Color picker Field =================================== -->
+             <colorPicker name="color_picker" class="Magento\Ui\Component\Form\Element\ColorPicker" component="Magento_Ui/js/form/element/color-picker">
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.default_value</link>
+                    </imports>
+                    <label translate="true">Default Color</label>
+                    <elementTmpl>ui/form/element/color-picker</elementTmpl>
+                    <colorFormat>rgb</colorFormat>
+                    <colorPickerMode>full</colorPickerMode>
+                    <dataScope>color_picker</dataScope>
+                </settings>
+            </colorPicker>
+        
+          <!-- ===================== Date ==================== -->
+
+            <field name="date" formElement="date">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">some_source</item>
+                    </item>
+                </argument>
+                <settings>
+                     <imports>
+                        <link name="value">${ $.provider }:data.default_value</link>
+                    </imports>
+                    <validation>
+                        <rule name="validate-date" xsi:type="boolean">true</rule>
+                    </validation>
+                    <dataType>text</dataType>
+                    <label translate="true">Default Value</label>
+                    <dataScope>date</dataScope>
+                </settings>
+            </field>
+
+             <!-- =================== Text Area ===================== -->
+          <field name="textarea">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="formElement" xsi:type="string">textarea</item>
+                        <item name="cols" xsi:type="number">15</item>
+                        <item name="rows" xsi:type="number">5</item>
+                        <item name="label" translate="true" xsi:type="string">Default Value</item>
+                        <item name="dataType" translate="true" xsi:type="string">text</item>
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.default_value</link>
+                    </imports>
+                </settings>
+            </field>
+
+
+            <!-- =================== Yes no Area ===================== -->
+
+            <field name="yes_no" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                        <item name="default" xsi:type="string">0</item> 
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.default_value</link>
+                    </imports>
+                    <dataType>boolean</dataType>
+                    <label translate="true">Default Value</label>
+                    <dataScope>yes_no</dataScope>
+                </settings>
+            </field>  
+
+            <!-- <htmlContent name="content">
+                <block class="Icecube\EavManager\Block\Adminhtml\EavManager\Tab\Texteditor" name="texteditor"/>
+            </htmlContent> -->
+            <!-- <field name="content">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="formElement" xsi:type="string">wysiwyg</item>
+                        <item name="wysiwyg" xsi:type="boolean">true</item>
+                        <item name="wysiwygConfigData" xsi:type="array">
+                            <item name="is_pagebuilder_enabled" xsi:type="boolean">false</item>
+                        </item>
+                    </item>
+                </argument>
+            </field> -->
+            <!-- ======================================== DEFAULT FIELDS FOR ALL ATTRIBUTES END  ===================================================== -->
+    </fieldset>
+
+
+      <!-- ======================= ADVANCED ATTRIBUTE PROPERTIES FILED SET =============================== -->
+    <fieldset name="advanced_attribute_properties">
+            <settings>
+                <label translate="true">Advanced Attribute Properties</label>
+            </settings>
+
+         <!-- ======================= used in grid =============================== -->
+            <field name="is_used_in_grid" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                        <item name="default" xsi:type="string">0</item> 
+                    </item>
+                </argument>
+                <settings>
+                   <imports>
+                        <link name="value">${ $.provider }:data.is_used_in_grid</link>
+                    </imports>
+                    <dataType>boolean</dataType>
+                    <label translate="true">Used In Customer grid</label>
+                    <dataScope>is_used_in_grid</dataScope>
+                </settings>
+            </field>
+
+           <!-- ======================= used in grid =============================== -->
+            <!-- <field name="is_used_in_sales_grid" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                        <item name="default" xsi:type="string">0</item> 
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.is_used_in_sales_grid</link>
+                    </imports>
+                    <dataType>boolean</dataType>
+                    <label translate="true">Used In Sales grid</label>
+                    <dataScope>is_used_in_sales_grid</dataScope>
+                </settings>
+            </field> -->
+        
+          <!-- ======================= Values Required =============================== --> 
+            <field name="is_required" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                        <item name="default" xsi:type="string">0</item> 
+                    </item>
+                </argument>
+                <settings>
+                   <imports>
+                        <link name="value">${ $.provider }:data.is_required</link>
+                    </imports>
+                    <dataType>boolean</dataType>
+                    <label translate="true">Is Required</label>
+                    <dataScope>is_required</dataScope>
+                </settings>
+            </field>
+          <!-- ======================= Is Unique =============================== -->
+            <!-- <field name="is_unique" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                        <item name="default" xsi:type="string">0</item> 
+                    </item>
+                </argument>
+                <settings>
+                  <imports>
+                        <link name="value">${ $.provider }:data.is_unique</link>
+                    </imports>
+                    <dataType>boolean</dataType>
+                    <label translate="true">Is Unique</label>
+                    <dataScope>is_unique</dataScope>
+                </settings>
+            </field> -->
+
+         <!-- ======================= Is User Defined =============================== -->
+            <!-- <field name="is_user_defined" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                        <item name="default" xsi:type="string">0</item> 
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.is_user_defined</link>
+                    </imports>
+                    <dataType>boolean</dataType>
+                    <label translate="true">Is User Defined</label>
+                    <dataScope>is_user_defined</dataScope>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                </settings>
+            </field>   -->
+
+       
+         <!-- ======================= Attribute Model =============================== -->
+            <!-- <field name="attribute_model" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.attribute_model</link>
+                    </imports>
+                    <dataType>text</dataType>
+                    <label translate="true">Attribute Model</label>
+                    <dataScope>attribute_model</dataScope>
+                </settings>
+            </field>    -->
+         <!-- ======================= Backend Model =============================== -->  
+            <!-- <field name="backend_model" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.backend_model</link>
+                    </imports>
+                    <dataType>text</dataType>
+                    <label translate="true">Backend Model</label>
+                    <dataScope>backend_model</dataScope>
+                </settings>
+            </field> -->
+
+         <!-- ======================= Backend TABLE =============================== -->  
+            <!-- <field name="backend_table" formElement="input">
+                <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">attribute</item>
+                </item>
+                </argument>
+                <settings>
+                <imports>
+                    <link name="value">${ $.provider }:data.backend_table</link>
+                </imports>
+                <dataType>text</dataType>
+                <label translate="true">Backend Table</label>
+                <dataScope>backend_table</dataScope>
+                </settings>
+            </field> -->
+       
+         <!-- ======================= Backend Type =============================== -->   
+            <!-- <field name="backend_type" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                        <item name="default" xsi:type="string">0</item> 
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.backend_type</link>
+                    </imports>
+                    <dataType>text</dataType>
+                    <label translate="true">Static field Type</label>
+                    <dataScope>backend_type</dataScope>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                </settings>
+            </field>  -->
+
+         <!-- ======================= Frontend Model =============================== --> 
+            <!-- <field name="frontend_model" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.frontend_model</link>
+                    </imports>
+                    <dataType>text</dataType>
+                    <label translate="true">Frontend Model</label>
+                    <dataScope>frontend_model</dataScope>
+                </settings>
+            </field>     -->
+
+         <!-- ======================= Frontend Class =============================== -->
+            <!-- <field name="frontend_class" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.frontend_class</link>
+                    </imports>
+                    <dataType>text</dataType>
+                    <label translate="true">Frontend Class</label>
+                    <dataScope>frontend_class</dataScope>
+                </settings>
+            </field> -->
+         <!-- ======================= Source Model =============================== -->
+            <!-- <field name="source_model" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.source_model</link>
+                    </imports>
+                    <dataType>text</dataType>
+                    <label translate="true">Source Model</label>
+                    <dataScope>source_model</dataScope>
+                </settings> 
+            </field> -->
+
+    </fieldset>
+
+       <!-- ======================= MANAGE LABELS FILED SET =============================== -->
+    <fieldset name="manage_labels">
+            <settings>
+                <label translate="true">Manage Labels</label>
+            </settings>
+
+
+            <!-- Field for Store-Wise Manage Labels -->
+            <container name="group_title_container">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                    </item>
+                </argument>
+                <htmlContent name="group_title">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="additionalClasses" xsi:type="string">admin__field</item>
+                            <item name="label" xsi:type="string" translate="true">Group Title</item>
+                            <item name="dataScope" xsi:type="string">group_title_container</item>
+                        </item>
+                    </argument>
+                    <argument name="block" xsi:type="object">Icecube\EavManager\Block\Adminhtml\EavManager\Tab\Labels</argument>
+                </htmlContent>
+            </container>
+    </fieldset>
+
+
+
+    <!-- ======================= STROREFRONT FILED SET =============================== -->
+    <fieldset name="storefront_properties">
+            <settings> 
+                    <label translate="true">Storefront Properties</label>
+            </settings>
+        
+              <!-- ======================= Show on Storefront =============================== -->
+            <field name="is_visible" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                        <item name="default" xsi:type="string">1</item> 
+                        <item name="component" xsi:type="string">Icecube_EavManager/js/form/isvisible</item>
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.is_visible</link>
+                    </imports>
+                    <dataType>boolean</dataType>
+                    <label translate="true">Show on Storefront</label>
+                    <dataScope>is_visible</dataScope>
+                </settings>
+            </field>
+
+           
+            <!-- ======================= Store View =============================== -->   
+            <field name="store_view" formElement="multiselect">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Icecube\EavManager\Model\EavManager\Source\StoreOptions</item>
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                        <item name="default" xsi:type="string">0</item> 
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.store_view</link>
+                        <!-- <link name="disabled">${ $.parentName }.is_visible:value</link> -->
+                    </imports>
+                    <dataType>text</dataType>
+                    <label translate="true">Store View</label>
+                    <dataScope>store_view</dataScope>
+                  <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                </settings>
+            </field>
+
+            <!-- ======================= Customer Groups Type =============================== -->   
+           <field name="customer_group" formElement="multiselect">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Icecube\EavManager\Model\EavManager\Source\CustomerGroup</item>
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                        <item name="default" xsi:type="string">0,1,2,3</item> 
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.customer_group</link>
+                    </imports>
+                    <dataType>text</dataType>
+                    <label translate="true">Customer Groups</label>
+                    <dataScope>customer_group</dataScope>
+                      <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                   </validation>
+                </settings>
+            </field>
+
+              <!-- ======================= Customer Groups Type =============================== -->   
+                <field name="show_on_forms" formElement="multiselect">
+                    <argument name="data" xsi:type="array">
+                        <item name="options" xsi:type="object">Icecube\EavManager\Model\EavManager\Source\FormCodes</item>
+                        <item name="config" xsi:type="array">
+                            <item name="source" xsi:type="string">attribute</item>
+                        </item>
+                    </argument>
+                    <settings>
+                        <dataType>text</dataType>
+                        <label translate="true">Shown on forms</label>
+                        <dataScope>show_on_forms</dataScope>
+                        <imports>
+                            <link name="value">${ $.provider }:data.show_on_forms</link>
+                        </imports>
+                    </settings>
+                </field>
+
+
+             <!-- ======================= Sort Order =============================== -->
+            <field name="sort_order" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">attribute</item>
+                    </item>
+                </argument>
+                <settings>
+                    <imports>
+                        <link name="value">${ $.provider }:data.sort_order</link>
+                    </imports>
+                    <dataType>number</dataType>
+                    <label translate="true">Sort Order</label>
+                    <dataScope>sort_order</dataScope>
+                     <validation>
+                            <rule name="validate-number" xsi:type="boolean">true</rule> <!-- ✅ Number validation -->
+                    </validation>
+                </settings>
+            </field>
+      </fieldset>   
+</form>

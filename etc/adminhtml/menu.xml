@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Icecube_EavManager::icecube_eav_manager"
+             title="Eav Manager"
+             module="Icecube_EavManager"
+             sortOrder="52"
+             resource="Icecube_EavManager::icecube_eav_manager"/>
+
+             <!-- =================== Manager Attributes ================ -->
+             <add id="Icecube_EavManager::eav_manager" 
+             title="Manage Attributes" 
+             module="Icecube_EavManager" 
+             sortOrder="10" 
+             action="env_manager/attribute/index" 
+             resource="Icecube_EavManager::eav_manager" 
+             parent="Icecube_EavManager::icecube_eav_manager"/>
+
+             <!-- =================== Configration ================ -->
+ 
+            <add id="Icecube_EavManager::eav_manager_configuration"
+                 title="Configuration"
+                 module="Icecube_EavManager"
+                 sortOrder="99"
+                 parent="Icecube_EavManager::icecube_eav_manager"
+                 action="adminhtml/system_config/edit/section/eav_manager"
+                 resource="Icecube_EavManager::eav_manager_configuration"/>
+    </menu>
+</config>

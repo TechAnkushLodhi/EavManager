@@ -1,0 +1,77 @@
+<h1>test</h1>
+<?php  
+$attributes = $block->getEavManager();
+
+if ($attributes): ?>
+<legend class="legend"><span><?= $block->escapeHtml(__('Additional Information')) ?></span></legend><br>
+
+<?php foreach ($attributes as $attribute): ?>
+    <?php
+        $label = $attribute['frontend_label'];
+        $code = $attribute['attribute_code'];
+        $value = $attribute['customer_attribute_value'] ?? null;
+        $inputType = $attribute['frontend_input'];
+        $defaultValue = $attribute['default_value'];
+        $sourceModel = $attribute['source_model'] ?? '';
+        $isRequired = $attribute['is_required'] ?? false;
+        $value = !empty($value) ? $value : $defaultValue;
+
+        $options = [];
+        if (in_array($inputType, ['select', 'multiselect']) && $sourceModel) {
+            try {
+                $source = \Magento\Framework\App\ObjectManager::getInstance()->create($sourceModel);
+                $options = $source->getAllOptions();
+            } catch (\Exception $e) {
+                $options = [];
+            }
+        }
+
+        // Required attributes
+        $requiredClass = $isRequired ? ' required' : '';
+        $validateAttr = $isRequired ? ' data-validate="{required:true}"' : '';
+    ?>
+
+    <div class="field field-<?= $code ?> <?= $requiredClass ?>">
+        <label class="label" for="<?= $code ?>"><span><?= $label ?></span></label><br/>
+
+        <?php if ($inputType == 'text'): ?>
+            <input type="text" id="<?= $code ?>" name="<?= $code ?>" value="<?= $value ?>"
+                   class="input-text"<?= $validateAttr ?> />
+        
+       <?php elseif ($inputType == 'textarea'): ?>
+        <textarea id="<?= $code ?>" name="<?= $code ?>" class="input-textarea"<?= $validateAttr ?>><?= $value ?></textarea>           
+
+        <?php elseif ($inputType == 'date'): ?>
+            <?php $formattedValue = $value ? date('Y-m-d', strtotime($value)) : ''; ?>
+                    <input type="date" id="<?= $code ?>" name="<?= $code ?>"
+                        value="<?= $formattedValue ?>"
+                        class="input-text"<?= $validateAttr ?> />
+
+
+        <?php elseif ($inputType == 'select'): ?>
+            <select name="<?= $code ?>" id="<?= $code ?>" class="input-select"<?= $validateAttr ?>>
+                <?php foreach ($options as $option): ?>
+                    <option value="<?= $option['value'] ?>" <?= $option['value'] == $value ? 'selected' : '' ?>>
+                        <?= $option['label'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
+        <?php elseif ($inputType == 'multiselect'): ?>
+            <?php $selectedValues = explode(',', $value); ?>
+            <select name="<?= $code ?>[]" multiple id="<?= $code ?>" class="input-multiselect"<?= $validateAttr ?>>
+                <?php foreach ($options as $option): ?>
+                    <option value="<?= $option['value'] ?>" <?= in_array($option['value'], $selectedValues) ? 'selected' : '' ?>>
+                        <?= $option['label'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
+        <?php else: ?>
+            <span><?= $value ?></span>
+        <?php endif; ?>
+    </div>
+<?php endforeach; ?>
+<?php endif; ?>
+
+

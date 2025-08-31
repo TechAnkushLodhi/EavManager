@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:framework/Acl/etc/acl.xsd">
+     <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Icecube_EavManager::icecube_eav_manager" title="Eav Manager" sortOrder="51">
+                    <resource id="Icecube_EavManager::eav_manager" title="Manage Attributes" sortOrder="10">
+                        <resource id="Icecube_EavManager::eav_manager_save" title="Save Attribute" translate="title" sortOrder="20"/>
+                        <resource id="Icecube_EavManager::eav_manager_delete" title="Delete Attribute" translate="title" sortOrder="21" />
+                    </resource>
+                    <resource id="Icecube_EavManager::eav_manager_configuration" title="Configuration" sortOrder="99"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>
